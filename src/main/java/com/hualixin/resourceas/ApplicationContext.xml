@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+       http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+<!--定义连接工厂-->
+<rabbit:connection-factory id="connectionFactory" host="192.168.182.128" port="5672" username="test" password="test" virtual-host="test"></rabbit:connection-factory>
+   <!--定义管理者-->
+   <rabbit:admin id="rabbitAdmin" connection-factory="connectionFactory"></rabbit:admin>
+    <!--定义Rabbitmq模板-->
+    <rabbit:template id="template" connection-factory="connectionFactory" exchange="fanoutExchange" ></rabbit:template>
+    <!--定义队列-->
+    <rabbit:queue name="myQueue" auto-declare="true"></rabbit:queue>
+    <!--定义交换机-->
+    <rabbit:fanout-exchange  name="fanoutExchange" auto-declare="true" >
+        <!--定义连接到交换机还是队列-->
+        <rabbit:bindings>
+            <rabbit:binding queue="myQueue"></rabbit:binding>
+        </rabbit:bindings>
+    </rabbit:fanout-exchange>
+    <!--定义监听容器，当收到消息时会执行内部配置-->
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <!--定义那个类中的那个方法收到处理的消息-->
+        <rabbit:listener ref="consumer" method="test" queue-names="myQueue"></rabbit:listener>
+    </rabbit:listener-container>
+
+    <!--定义消费者-->
+    <bean id="consumer"  class="com.hualixin.spring.MyConsumer"></bean>
+<!--&lt;!&ndash;定义route模式&ndash;&gt;-->
+    <!--<rabbit:direct-exchange name="directexchange" durable="true" auto-delete="false">-->
+        <!--<rabbit:bindings>-->
+            <!--<rabbit:binding queue="myQueue" key="key1"></rabbit:binding>-->
+        <!--</rabbit:bindings>-->
+    <!--</rabbit:direct-exchange>-->
+    <!--&lt;!&ndash;定义topic模式&ndash;&gt;-->
+    <!--//durable是否绑定-->
+<!--<rabbit:topic-exchange name="topicexchange" durable="true" auto-delete="false">-->
+    <!--<rabbit:bindings>-->
+        <!--<rabbit:binding pattern="abbs.*" queue="myQueue"></rabbit:binding>-->
+    <!--</rabbit:bindings>-->
+<!--</rabbit:topic-exchange>-->
+</beans>
