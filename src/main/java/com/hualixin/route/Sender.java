@@ -5,6 +5,9 @@ import com.rabbitmq.client.Connection;
 import com.hualixin.util.ConnexttionUtil;
 
 public class Sender {
+    /**
+     * 使用Rabbitmq中路由模式发送消息
+     */
     private final static String EXCHANGE_NAME="testroute";
 
     public static void main(String[] args)throws Exception {

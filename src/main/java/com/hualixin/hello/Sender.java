@@ -5,7 +5,9 @@ import com.rabbitmq.client.Connection;
 import com.hualixin.util.ConnexttionUtil;
 
 public class Sender {
-
+    /**
+     * Rabbitmq中hello模式发送消息
+     */
     private static final String QUEUE="testhello";
     public static void main(String[] args) throws Exception {
 

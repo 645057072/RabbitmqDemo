@@ -10,6 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ApplicationContext2.xml"})
 public class TestMain {
+    /**
+     * 使用Rabbitmq+spring 自动扫描的方式手动回调的方式发送生产者消息
+     */
         @Autowired
         private PublishUtil publishUtil;
         private static String exCHANGE="DIRECT_EX";

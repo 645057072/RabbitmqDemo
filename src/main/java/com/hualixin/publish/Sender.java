@@ -5,6 +5,9 @@ import com.rabbitmq.client.Connection;
 import com.hualixin.util.ConnexttionUtil;
 
 public class Sender {
+    /**
+     * 使用Rabbitmq中交换机模式发送消息
+     */
     private static final String EXCHANGE_NAME="testexchenge";
 
     public static void main(String[] args) throws Exception{
